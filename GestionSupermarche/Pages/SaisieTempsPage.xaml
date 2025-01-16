@@ -40,45 +40,32 @@
 
             <Frame BorderColor="Gray" Padding="20">
                 <VerticalStackLayout Spacing="15">
-                    <Label Text="Derniers Enregistrements" 
-                           FontSize="Title" 
-                           HorizontalOptions="Center"/>
-
-                    <ListView x:Name="ListViewDerniersTemps"
-                             HeightRequest="200"
-                             ItemSelected="OnTempsSelected"
-                             SelectionMode="Single">
+                    <Label Text="Derniers Enregistrements" FontSize="Title" HorizontalOptions="Center"/>
+                    <ListView x:Name="ListViewDerniersTemps" HeightRequest="200" ItemSelected="OnTempsSelected" SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Grid Padding="10">
+                                    <Grid Padding="10" ColumnSpacing="10">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <Label Grid.Column="0" Grid.Row="0" 
-                                               Text="{Binding NomEmploye}"
-                                               FontAttributes="Bold"/>
-                                        
-                                        <Label Grid.Column="0" Grid.Row="1" 
-                                               Text="{Binding NomRayon}"
-                                               TextColor="Gray"/>
-                                        
-                                        <Label Grid.Column="1" Grid.Row="0" 
-                                           Text="{Binding Date, StringFormat='{0:dd/MM/yyyy}'}"
-                                           VerticalOptions="Center"
-                                           Margin="0,0,20,0"/>
-                                        
-                                        <Label Grid.Column="2" Grid.Row="0" 
-                                           Text="{Binding Temps, StringFormat='{0}h'}"
-                                           VerticalOptions="Center"
-                                           Margin="20,0,0,0"/>
+                                        <Label Grid.Column="0" Text="{Binding NomEmploye}" FontAttributes="Bold"/>
+                                        <Label Grid.Column="1" Text="{Binding NomRayon}" TextColor="Gray"/>
+                                        <Label Grid.Column="2" Text="{Binding Date, StringFormat='{0:dd/MM/yyyy}'}" VerticalOptions="Center"/>
+                                        <Label Grid.Column="3" Text="{Binding Temps, StringFormat='{0}h'}" VerticalOptions="Center"/>
+                                        <ImageButton Grid.Column="4"
+                                             Source="poubelle_icon.png" 
+                                             BackgroundColor="Transparent"
+                                             Clicked="OnSupprimerTempsClicked"
+                                             CommandParameter="{Binding .}" 
+                                             HeightRequest="35" 
+                                             WidthRequest="35"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center" />
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>

@@ -317,4 +317,30 @@ public partial class SaisieTempsPage : ContentPage
             await AfficherPopupHeures(tempsActuel);
         }
     }
+    private async void OnSupprimerTempsClicked(object sender, EventArgs e)
+    {
+        // Vérification que le sender est un ImageButton
+        if (sender is ImageButton imageButton && imageButton.CommandParameter is TempsTravailDetailDto tempsInfo)
+        {
+            bool confirmation = await DisplayAlert("Confirmation",
+                $"Voulez-vous vraiment supprimer cet enregistrement ?",
+                "Oui", "Non");
+
+            if (confirmation)
+            {
+                try
+                {
+                    var temps = new TempsTravail { IdTempsTravail = tempsInfo.IdTempsTravail };
+                    await _tempsTravailRepository.SupprimerTempsTravail(temps);
+                    await DisplayAlert("Succès", "Enregistrement supprimé avec succès", "OK");
+                    await ChargerDerniersTemps();
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Erreur", $"Erreur lors de la suppression : {ex.Message}", "OK");
+                }
+            }
+        }
+    }
+
 }

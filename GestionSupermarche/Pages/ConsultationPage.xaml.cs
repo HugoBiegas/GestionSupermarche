@@ -22,11 +22,22 @@ public partial class ConsultationPage : ContentPage
         _employeRepository = new EmployeRepository(Database.GetConnection());
         _rayonRepository = new RayonRepository(Database.GetConnection());
     }
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
+        ReinitialiserChamps();
         ChargerEmployes();
     }
+
+    private void ReinitialiserChamps()
+    {
+        PickerEmploye.SelectedIndex = -1;
+        ListViewTemps.ItemsSource = null;
+        LabelTotalHeures.Text = "Total: 0h";
+    }
+
+
+
 
     private async void ChargerEmployes()
     {
@@ -66,7 +77,7 @@ public partial class ConsultationPage : ContentPage
 
     private async void OnSupprimerTempsClicked(object sender, EventArgs e)
     {
-        var button = sender as Button;
+        var button = sender as ImageButton;
         var tempsInfo = button?.CommandParameter as TempsTravailDto;
 
         if (tempsInfo == null) return;

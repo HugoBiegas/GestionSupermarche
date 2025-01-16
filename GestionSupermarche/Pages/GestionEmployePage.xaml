@@ -39,12 +39,15 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Text="{Binding Nom}" 
                                                VerticalOptions="Center"/>
-                                        <Button Grid.Column="1" 
-                                                Text="Supprimer"
-                                                BackgroundColor="Red"
-                                                TextColor="White"
-                                                Clicked="OnSupprimerEmployeClicked"
-                                                CommandParameter="{Binding .}"/>
+                                        <ImageButton Grid.Column="1"
+                                             Source="poubelle_icon.png" 
+                                             BackgroundColor="Transparent"
+                                             Clicked="OnSupprimerEmployeClicked"
+                                             CommandParameter="{Binding .}" 
+                                             HeightRequest="35" 
+                                             WidthRequest="35"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center" />
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>

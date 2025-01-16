@@ -66,7 +66,7 @@ public partial class GestionEmployePage : ContentPage
 
     private async void OnSupprimerEmployeClicked(object sender, EventArgs e)
     {
-        var button = sender as Button;
+        var button = sender as ImageButton;
         var employe = button?.CommandParameter as Employe;
 
         if (employe == null) return;

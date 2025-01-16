@@ -56,12 +56,15 @@
                                                Text="{Binding Temps, StringFormat='{0}h'}"
                                                VerticalOptions="Center"
                                                Margin="10,0"/>
-                                        <Button Grid.Column="2"
-                                                Text="Supprimer"
-                                                BackgroundColor="Red"
-                                                TextColor="Black"
-                                                Clicked="OnSupprimerTempsClicked"
-                                                CommandParameter="{Binding .}"/>
+                                        <ImageButton Grid.Column="2"
+                                             Source="poubelle_icon.png" 
+                                             BackgroundColor="Transparent"
+                                             Clicked="OnSupprimerTempsClicked"
+                                             CommandParameter="{Binding .}" 
+                                             HeightRequest="35" 
+                                             WidthRequest="35"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center" />
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>

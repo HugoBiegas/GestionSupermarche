@@ -110,7 +110,7 @@ public partial class GestionSecteurPage : ContentPage
     {
         try
         {
-            var button = sender as Button;
+            var button = sender as ImageButton;
             var secteurInfo = button?.CommandParameter as dynamic;
 
             if (secteurInfo == null || !secteurInfo.PeutSupprimer) return;

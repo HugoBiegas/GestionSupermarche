@@ -53,13 +53,16 @@
                                                    TextColor="Gray"
                                                    FontSize="Small"/>
                                         </VerticalStackLayout>
-                                        <Button Grid.Column="1"
-                                                Text="Supprimer"
-                                                BackgroundColor="#FF5252"
-                                                TextColor="White"
-                                                Clicked="OnSupprimerClicked"
-                                                Margin="5,0,0,0"
-                                                CommandParameter="{Binding .}"/>
+                                        <ImageButton Grid.Column="1"
+                                             Source="poubelle_icon.png" 
+                                             BackgroundColor="Transparent"
+                                             Clicked="OnSupprimerClicked"
+                                             CommandParameter="{Binding .}" 
+                                             HeightRequest="35" 
+                                             WidthRequest="35"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center" />
+
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>

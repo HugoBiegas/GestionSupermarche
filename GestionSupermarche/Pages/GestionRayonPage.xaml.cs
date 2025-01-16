@@ -178,7 +178,7 @@ public partial class GestionRayonPage : ContentPage
     {
         try
         {
-            var button = sender as Button;
+            var button = sender as ImageButton;
             var rayonInfo = button?.CommandParameter as dynamic;
 
             if (rayonInfo == null) return;
