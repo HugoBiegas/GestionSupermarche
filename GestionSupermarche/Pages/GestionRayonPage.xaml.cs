@@ -58,47 +58,86 @@ public partial class GestionRayonPage : ContentPage
     {
         if (e.SelectedItem is RayonDto rayonInfo)
         {
-            // Première popup pour le nom du rayon
-            string nouveauNom = await DisplayPromptAsync(
-                "Modifier le rayon",
-                "Nom du rayon :",
-                initialValue: rayonInfo.Nom,
-                accept: "Suivant",
-                cancel: "Annuler");
+            var action = await DisplayActionSheet(
+                "Que souhaitez-vous modifier ?",
+                "Annuler",
+                null,
+                "Modifier le nom",
+                "Modifier le secteur");
 
-            if (!string.IsNullOrWhiteSpace(nouveauNom))
+            switch (action)
             {
-                // Deuxième popup pour choisir le secteur
-                var secteurChoisi = await DisplayActionSheet(
-                    "Choisir le secteur",
-                    "Annuler",
-                    null,
-                    _secteurs.Select(s => s.Nom).ToArray());
-
-                if (secteurChoisi != "Annuler" && secteurChoisi != null)
-                {
-                    try
-                    {
-                        var secteurSelectionne = _secteurs.First(s => s.Nom == secteurChoisi);
-                        var rayonModifie = new Rayon
-                        {
-                            IdRayon = rayonInfo.IdRayon,
-                            Nom = nouveauNom.Trim(),
-                            IdSecteur = secteurSelectionne.IdSecteur
-                        };
-
-                        await _rayonRepository.ModifierRayon(rayonModifie);
-                        await DisplayAlert("Succès", "Rayon modifié avec succès", "OK");
-                        await ChargerRayons();
-                    }
-                    catch (Exception ex)
-                    {
-                        await DisplayAlert("Erreur", $"Erreur lors de la modification : {ex.Message}", "OK");
-                    }
-                }
+                case "Modifier le nom":
+                    await ModifierNomRayon(rayonInfo);
+                    break;
+                case "Modifier le secteur":
+                    await ModifierSecteurRayon(rayonInfo);
+                    break;
             }
         }
         ((ListView)sender).SelectedItem = null;
+    }
+
+    private async Task ModifierNomRayon(RayonDto rayonInfo)
+    {
+        string nouveauNom = await DisplayPromptAsync(
+            "Modifier le rayon",
+            "Nom du rayon :",
+            initialValue: rayonInfo.Nom,
+            accept: "Modifier",
+            cancel: "Annuler");
+
+        if (!string.IsNullOrWhiteSpace(nouveauNom))
+        {
+            try
+            {
+                var rayonModifie = new Rayon
+                {
+                    IdRayon = rayonInfo.IdRayon,
+                    Nom = nouveauNom.Trim(),
+                    IdSecteur = rayonInfo.IdSecteur
+                };
+
+                await _rayonRepository.ModifierRayon(rayonModifie);
+                await DisplayAlert("Succès", "Nom du rayon modifié avec succès", "OK");
+                await ChargerRayons();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erreur", $"Erreur lors de la modification : {ex.Message}", "OK");
+            }
+        }
+    }
+
+    private async Task ModifierSecteurRayon(RayonDto rayonInfo)
+    {
+        var secteurChoisi = await DisplayActionSheet(
+            "Choisir le secteur",
+            "Annuler",
+            null,
+            _secteurs.Select(s => s.Nom).ToArray());
+
+        if (secteurChoisi != "Annuler" && secteurChoisi != null)
+        {
+            try
+            {
+                var secteurSelectionne = _secteurs.First(s => s.Nom == secteurChoisi);
+                var rayonModifie = new Rayon
+                {
+                    IdRayon = rayonInfo.IdRayon,
+                    Nom = rayonInfo.Nom,
+                    IdSecteur = secteurSelectionne.IdSecteur
+                };
+
+                await _rayonRepository.ModifierRayon(rayonModifie);
+                await DisplayAlert("Succès", "Secteur du rayon modifié avec succès", "OK");
+                await ChargerRayons();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erreur", $"Erreur lors de la modification : {ex.Message}", "OK");
+            }
+        }
     }
 
     private async void OnAjouterClicked(object sender, EventArgs e)

@@ -28,6 +28,13 @@ namespace GestionSupermarche.Repositories
                 .Where(t => t.IdEmploye == idEmploye)
                 .ToListAsync();
         }
+        public async Task<TempsTravail> GetTempsTravailById(int id)
+        {
+            return await _connection
+                .Table<TempsTravail>()
+                .Where(t => t.IdTempsTravail == id)
+                .FirstOrDefaultAsync();
+        }
 
         public async Task<bool> VerifierDisponibiliteEmploye(int idEmploye, int idRayon, DateTime date)
         {

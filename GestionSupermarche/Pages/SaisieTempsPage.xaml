@@ -45,7 +45,9 @@
                            HorizontalOptions="Center"/>
 
                     <ListView x:Name="ListViewDerniersTemps"
-                             HeightRequest="200">
+                             HeightRequest="200"
+                             ItemSelected="OnTempsSelected"
+                             SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
