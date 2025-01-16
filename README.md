@@ -57,7 +57,8 @@ Application mobile et desktop développée avec .NET MAUI permettant de gérer l
 
 ```
 GestionSupermarche/
-├── Models/                # Classes de données
+├── DTO/                  # Classes utilitaire
+├── Models/               # Classes de données
 ├── Pages/                # Pages XAML
 ├── Platforms/            # Configuration par plateforme
 ├── Repositories/         # Accès aux données
