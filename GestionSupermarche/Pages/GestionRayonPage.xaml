@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dto="clr-namespace:GestionSupermarche.DTO"
              x:Class="GestionSupermarche.Pages.GestionRayonPage"
              Title="Gestion des Rayons">
 
@@ -40,7 +39,7 @@
                              ItemSelected="OnRayonSelected"
                              SelectionMode="Single">
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="dto:RayonDto">
+                            <DataTemplate>
                                 <ViewCell>
                                     <Grid Padding="10">
                                         <Grid.ColumnDefinitions>
