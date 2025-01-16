@@ -40,6 +40,8 @@ Application mobile et desktop développée avec .NET MAUI permettant de gérer l
 - `SQLitePCLRaw.bundle_green` : Provider SQLite
 
 #### Graphiques
+- `Microcharts` : Bibliothèque légère pour créer des graphiques simples et élégants
+- `Microcharts.Maui` : Plugin qui adapte Microcharts pour fonctionner avec .NET MAUI
 
 #### Interface Utilisateur
 - `CommunityToolkit.Maui` : Composants UI additionnels
