@@ -1,6 +1,7 @@
 using GestionSupermarche.Models;
 using GestionSupermarche.Services;
 using GestionSupermarche.Repositories;
+using GestionSupermarche.DTO;
 
 namespace GestionSupermarche.Pages;
 
@@ -22,11 +23,8 @@ public partial class GestionRayonPage : ContentPage
     {
         try
         {
-            // Chargement des secteurs pour le Picker
             _secteurs = await _secteurRepository.ObtenirTousLesSecteurs();
             PickerSecteur.ItemsSource = _secteurs.Select(s => s.Nom).ToList();
-
-            // Chargement des rayons avec leurs secteurs
             await ChargerRayons();
         }
         catch (Exception ex)
@@ -38,21 +36,69 @@ public partial class GestionRayonPage : ContentPage
     private async Task ChargerRayons()
     {
         var rayons = await _rayonRepository.ObtenirTousLesRayons();
-        var rayonsAvecSecteur = new List<dynamic>();
+        var rayonsAvecSecteur = new List<RayonDto>();
 
         foreach (var rayon in rayons)
         {
             var secteur = _secteurs.FirstOrDefault(s => s.IdSecteur == rayon.IdSecteur);
-            rayonsAvecSecteur.Add(new
+            rayonsAvecSecteur.Add(new RayonDto
             {
-                rayon.IdRayon,
-                rayon.Nom,
+                IdRayon = rayon.IdRayon,
+                Nom = rayon.Nom,
                 NomSecteur = secteur?.Nom ?? "Secteur inconnu",
-                rayon.IdSecteur
+                IdSecteur = rayon.IdSecteur
+
             });
         }
 
         ListViewRayons.ItemsSource = rayonsAvecSecteur.OrderBy(r => r.Nom);
+    }
+
+    private async void OnRayonSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        if (e.SelectedItem is RayonDto rayonInfo)
+        {
+            // Première popup pour le nom du rayon
+            string nouveauNom = await DisplayPromptAsync(
+                "Modifier le rayon",
+                "Nom du rayon :",
+                initialValue: rayonInfo.Nom,
+                accept: "Suivant",
+                cancel: "Annuler");
+
+            if (!string.IsNullOrWhiteSpace(nouveauNom))
+            {
+                // Deuxième popup pour choisir le secteur
+                var secteurChoisi = await DisplayActionSheet(
+                    "Choisir le secteur",
+                    "Annuler",
+                    null,
+                    _secteurs.Select(s => s.Nom).ToArray());
+
+                if (secteurChoisi != "Annuler" && secteurChoisi != null)
+                {
+                    try
+                    {
+                        var secteurSelectionne = _secteurs.First(s => s.Nom == secteurChoisi);
+                        var rayonModifie = new Rayon
+                        {
+                            IdRayon = rayonInfo.IdRayon,
+                            Nom = nouveauNom.Trim(),
+                            IdSecteur = secteurSelectionne.IdSecteur
+                        };
+
+                        await _rayonRepository.ModifierRayon(rayonModifie);
+                        await DisplayAlert("Succès", "Rayon modifié avec succès", "OK");
+                        await ChargerRayons();
+                    }
+                    catch (Exception ex)
+                    {
+                        await DisplayAlert("Erreur", $"Erreur lors de la modification : {ex.Message}", "OK");
+                    }
+                }
+            }
+        }
+        ((ListView)sender).SelectedItem = null;
     }
 
     private async void OnAjouterClicked(object sender, EventArgs e)
@@ -79,11 +125,8 @@ public partial class GestionRayonPage : ContentPage
 
             await _rayonRepository.AjouterRayon(nouveauRayon);
             await ChargerRayons();
-
-            // Réinitialisation des champs
             EntryNomRayon.Text = string.Empty;
             PickerSecteur.SelectedIndex = -1;
-
             await DisplayAlert("Succès", "Rayon ajouté avec succès", "OK");
         }
         catch (Exception ex)
@@ -116,15 +159,6 @@ public partial class GestionRayonPage : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Erreur", "Erreur lors de la suppression: " + ex.Message, "OK");
-        }
-    }
-
-    private void OnRayonSelected(object sender, SelectedItemChangedEventArgs e)
-    {
-        // Désélectionne l'item
-        if (sender is ListView listView)
-        {
-            listView.SelectedItem = null;
         }
     }
 

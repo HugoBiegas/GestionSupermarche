@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dto="clr-namespace:GestionSupermarche.DTO"
              x:Class="GestionSupermarche.Pages.GestionSecteurPage"
              Title="Gestion des Secteurs">
 
@@ -33,24 +34,24 @@
 
                     <ListView x:Name="ListViewSecteurs"
                              HeightRequest="400"
-                             ItemSelected="OnSecteurSelected">
+                             ItemSelected="OnSecteurSelected"
+                             SelectionMode="Single">
                         <ListView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="dto:SecteurDto">
                                 <ViewCell>
                                     <Grid Padding="10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <VerticalStackLayout>
+                                        <VerticalStackLayout Grid.Column="0">
                                             <Label Text="{Binding Nom}" 
                                                    FontAttributes="Bold"/>
                                             <Label Text="{Binding NombreRayons, StringFormat='Nombre de rayons: {0}'}" 
                                                    TextColor="Gray"
                                                    FontSize="Small"/>
                                         </VerticalStackLayout>
-                                        <Button Grid.Column="2"
+                                        <Button Grid.Column="1"
                                                 Text="Supprimer"
                                                 BackgroundColor="#FF5252"
                                                 TextColor="White"

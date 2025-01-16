@@ -1,7 +1,9 @@
-namespace GestionSupermarche.Pages;
 using GestionSupermarche.Models;
 using GestionSupermarche.Services;
 using GestionSupermarche.Repositories;
+
+namespace GestionSupermarche.Pages;
+
 public partial class GestionEmployePage : ContentPage
 {
     private readonly EmployeRepository _employeRepository;
@@ -16,6 +18,35 @@ public partial class GestionEmployePage : ContentPage
     private async void ChargerEmployes()
     {
         ListViewEmployes.ItemsSource = await _employeRepository.ObtenirTousLesEmployes();
+    }
+
+    private async void OnEmployeSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        if (e.SelectedItem is Employe employe)
+        {
+            string nouveauNom = await DisplayPromptAsync(
+                "Modifier l'employé",
+                "Nom de l'employé :",
+                initialValue: employe.Nom,
+                accept: "Modifier",
+                cancel: "Annuler");
+
+            if (!string.IsNullOrWhiteSpace(nouveauNom))
+            {
+                try
+                {
+                    employe.Nom = nouveauNom.Trim();
+                    await _employeRepository.ModifierEmploye(employe);
+                    await DisplayAlert("Succès", "Employé modifié avec succès", "OK");
+                    ChargerEmployes();
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Erreur", $"Erreur lors de la modification : {ex.Message}", "OK");
+                }
+            }
+        }
+        ((ListView)sender).SelectedItem = null;
     }
 
     private async void OnAjouterEmployeClicked(object sender, EventArgs e)
@@ -49,11 +80,5 @@ public partial class GestionEmployePage : ContentPage
             await _employeRepository.SupprimerEmploye(employe);
             ChargerEmployes();
         }
-    }
-
-    private void OnEmployeSelected(object sender, SelectedItemChangedEventArgs e)
-    {
-        // Désélectionne l'item
-        ((ListView)sender).SelectedItem = null;
     }
 }

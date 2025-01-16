@@ -1,6 +1,7 @@
 using GestionSupermarche.Models;
 using GestionSupermarche.Services;
 using GestionSupermarche.Repositories;
+using GestionSupermarche.DTO;
 
 namespace GestionSupermarche.Pages;
 
@@ -8,6 +9,7 @@ public partial class GestionSecteurPage : ContentPage
 {
     private readonly SecteurRepository _secteurRepository;
     private readonly RayonRepository _rayonRepository;
+
     public GestionSecteurPage()
     {
         InitializeComponent();
@@ -21,15 +23,15 @@ public partial class GestionSecteurPage : ContentPage
         try
         {
             var secteurs = await _secteurRepository.ObtenirTousLesSecteurs();
-            var secteursAvecRayons = new List<dynamic>();
+            var secteursAvecRayons = new List<SecteurDto>();
 
             foreach (var secteur in secteurs)
             {
                 var rayons = await _rayonRepository.ObtenirRayonsParSecteur(secteur.IdSecteur);
-                secteursAvecRayons.Add(new
+                secteursAvecRayons.Add(new SecteurDto
                 {
-                    secteur.IdSecteur,
-                    secteur.Nom,
+                    IdSecteur = secteur.IdSecteur,
+                    Nom = secteur.Nom,
                     NombreRayons = rayons.Count,
                     PeutSupprimer = rayons.Count == 0
                 });
@@ -41,6 +43,41 @@ public partial class GestionSecteurPage : ContentPage
         {
             await DisplayAlert("Erreur", "Erreur lors du chargement des secteurs: " + ex.Message, "OK");
         }
+    }
+
+
+    private async void OnSecteurSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        if (e.SelectedItem is SecteurDto secteurInfo)
+        {
+            string nouveauNom = await DisplayPromptAsync(
+                "Modifier le secteur",
+                "Nom du secteur :",
+                initialValue: secteurInfo.Nom,
+                accept: "Modifier",
+                cancel: "Annuler");
+
+            if (!string.IsNullOrWhiteSpace(nouveauNom))
+            {
+                try
+                {
+                    var secteurModifie = new Secteur
+                    {
+                        IdSecteur = secteurInfo.IdSecteur,
+                        Nom = nouveauNom.Trim()
+                    };
+
+                    await _secteurRepository.ModifierSecteur(secteurModifie);
+                    await DisplayAlert("Succès", "Secteur modifié avec succès", "OK");
+                    ChargerSecteurs();
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Erreur", $"Erreur lors de la modification : {ex.Message}", "OK");
+                }
+            }
+        }
+        ((ListView)sender).SelectedItem = null;
     }
 
     private async void OnAjouterClicked(object sender, EventArgs e)
@@ -61,7 +98,6 @@ public partial class GestionSecteurPage : ContentPage
             await _secteurRepository.AjouterSecteur(nouveauSecteur);
             EntryNomSecteur.Text = string.Empty;
             ChargerSecteurs();
-
             await DisplayAlert("Succès", "Secteur ajouté avec succès", "OK");
         }
         catch (Exception ex)
@@ -95,15 +131,6 @@ public partial class GestionSecteurPage : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Erreur", "Erreur lors de la suppression du secteur: " + ex.Message, "OK");
-        }
-    }
-
-    private void OnSecteurSelected(object sender, SelectedItemChangedEventArgs e)
-    {
-        // Désélectionne l'item
-        if (sender is ListView listView)
-        {
-            listView.SelectedItem = null;
         }
     }
 
