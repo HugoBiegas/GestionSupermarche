@@ -1,7 +1,7 @@
+using GestionSupermarche.Repositories;
+using GestionSupermarche.Services;
 using Microcharts;
 using SkiaSharp;
-using GestionSupermarche.Services;
-using GestionSupermarche.Repositories;
 
 namespace GestionSupermarche.Pages;
 
@@ -23,7 +23,7 @@ public partial class GraphiquePage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        ChargerGraphiques();
+        //ChargerGraphiques();
     }
 
     public GraphiquePage()
@@ -35,7 +35,7 @@ public partial class GraphiquePage : ContentPage
         _employeRepository = new EmployeRepository(Database.GetConnection());
         _rayonRepository = new RayonRepository(Database.GetConnection());
 
-        ChargerGraphiques();
+        //ChargerGraphiques();
     }
 
 

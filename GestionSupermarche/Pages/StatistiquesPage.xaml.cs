@@ -1,6 +1,5 @@
-using GestionSupermarche.Models;
-using GestionSupermarche.Services;
 using GestionSupermarche.Repositories;
+using GestionSupermarche.Services;
 
 
 namespace GestionSupermarche.Pages;

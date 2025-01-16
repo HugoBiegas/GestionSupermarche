@@ -1,8 +1,7 @@
-using GestionSupermarche.Models;
-using GestionSupermarche.Services;
-using GestionSupermarche.Repositories;
-using System.Globalization;
 using GestionSupermarche.DTO;
+using GestionSupermarche.Models;
+using GestionSupermarche.Repositories;
+using GestionSupermarche.Services;
 
 namespace GestionSupermarche.Pages;
 
@@ -35,9 +34,6 @@ public partial class ConsultationPage : ContentPage
         ListViewTemps.ItemsSource = null;
         LabelTotalHeures.Text = "Total: 0h";
     }
-
-
-
 
     private async void ChargerEmployes()
     {

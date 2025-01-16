@@ -1,8 +1,7 @@
-using GestionSupermarche.Models;
-using GestionSupermarche.Services;
-using GestionSupermarche.Repositories;
-using SQLitePCL;
 using GestionSupermarche.DTO;
+using GestionSupermarche.Models;
+using GestionSupermarche.Repositories;
+using GestionSupermarche.Services;
 
 namespace GestionSupermarche.Pages;
 
@@ -14,6 +13,19 @@ public partial class SaisieTempsPage : ContentPage
     private List<Employe> _employes;
     private List<Rayon> _rayons;
     private string _heuresText;
+    public string HeuresText
+    {
+        get => _heuresText;
+        set
+        {
+            if (_heuresText != value)
+            {
+                _heuresText = value;
+                OnPropertyChanged(nameof(HeuresText));
+            }
+        }
+    }
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
@@ -67,6 +79,8 @@ public partial class SaisieTempsPage : ContentPage
 
         ListViewDerniersTemps.ItemsSource = tempsList;
     }
+
+
     private async void OnEnregistrerClicked(object sender, EventArgs e)
     {
         if (PickerEmploye.SelectedIndex == -1 || PickerRayon.SelectedIndex == -1)
@@ -115,18 +129,7 @@ public partial class SaisieTempsPage : ContentPage
         EntryHeures.Text = string.Empty;
         DatePickerTravail.Date = DateTime.Today;
     }
-    public string HeuresText
-    {
-        get => _heuresText;
-        set
-        {
-            if (_heuresText != value)
-            {
-                _heuresText = value;
-                OnPropertyChanged(nameof(HeuresText));
-            }
-        }
-    }
+
     private async void OnTempsSelected(object sender, SelectedItemChangedEventArgs e)
     {
         if (e.SelectedItem is TempsTravailDetailDto tempsInfo)
@@ -295,7 +298,6 @@ public partial class SaisieTempsPage : ContentPage
 
         if (!int.TryParse(nouvellesHeures, out int heures) || heures < 0 || heures > 24)
         {
-            // Réafficher la popup avec un message d'erreur
             await AfficherPopupHeures(tempsActuel, "Erreur: Veuillez entrer un nombre entre 0 et 24");
             return;
         }
@@ -317,9 +319,9 @@ public partial class SaisieTempsPage : ContentPage
             await AfficherPopupHeures(tempsActuel);
         }
     }
+
     private async void OnSupprimerTempsClicked(object sender, EventArgs e)
     {
-        // Vérification que le sender est un ImageButton
         if (sender is ImageButton imageButton && imageButton.CommandParameter is TempsTravailDetailDto tempsInfo)
         {
             bool confirmation = await DisplayAlert("Confirmation",

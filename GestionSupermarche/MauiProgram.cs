@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
 using Microcharts.Maui;
+using Microsoft.Extensions.Logging;
 
 namespace GestionSupermarche
 {
