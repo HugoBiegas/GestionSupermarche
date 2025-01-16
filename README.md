@@ -6,9 +6,9 @@ Application mobile et desktop développée avec .NET MAUI permettant de gérer l
 ## Fonctionnalités
 
 ### 1. Gestion des Données
-- Création/modification des employés
-- Création/modification des rayons
-- Création/modification des secteurs
+- Création/modification/supprestion des employés
+- Création/modification/supprestion des rayons
+- Création/modification/supprestion des secteurs
 
 ### 2. Gestion du Temps de Travail
 - Saisie des heures travaillées par employé et par rayon
