@@ -61,8 +61,7 @@ GestionSupermarche/
 ├── Repositories/         # Accès aux données
 ├── Resources/            # Ressources de l'application
 ├── Services/             # Services (BDD, etc.)
-└── Utils/               
-    └── Convertisseurs/   # Convertisseurs XAML
+└── Converter/            # mise en forme special   
 ```
 
 ## Base de Données
