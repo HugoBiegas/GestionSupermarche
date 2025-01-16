@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionSupermarche.Pages.ConsultationPage"
+             Title="Consultation des Temps">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+            <Frame BorderColor="Gray" Padding="15">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Sélectionner un employé" 
+                           FontSize="Title" 
+                           HorizontalOptions="Center"/>
+
+                    <Picker x:Name="PickerEmploye"
+                            Title="Choisir un employé"
+                            SelectedIndexChanged="OnEmployeSelectionne"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame BorderColor="Gray" Padding="15" IsVisible="{Binding HasEmployeSelected}">
+                <VerticalStackLayout Spacing="15">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Temps de travail" 
+                               FontSize="Title"/>
+                        <Label Grid.Column="1" 
+                               x:Name="LabelTotalHeures"
+                               Text="Total: 0h"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <ListView x:Name="ListViewTemps"
+                             HeightRequest="400">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding NomRayon}"
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding Date, StringFormat='{0:dd/MM/yyyy}'}"
+                                                   TextColor="Gray"/>
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="1" 
+                                               Text="{Binding Temps, StringFormat='{0}h'}"
+                                               VerticalOptions="Center"
+                                               Margin="10,0"/>
+                                        <Button Grid.Column="2"
+                                                Text="Supprimer"
+                                                BackgroundColor="Red"
+                                                TextColor="Black"
+                                                Clicked="OnSupprimerTempsClicked"
+                                                CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

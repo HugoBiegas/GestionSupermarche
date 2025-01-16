@@ -3,13 +3,57 @@
     x:Class="GestionSupermarche.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:GestionSupermarche"
-    Shell.FlyoutBehavior="Disabled"
-    Title="GestionSupermarche">
+    xmlns:local="clr-namespace:GestionSupermarche.Pages"
+    Shell.FlyoutBehavior="Flyout">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- Configurer les images dans Resources/Images/ -->
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="#455A64"/>
+                <Setter Property="Shell.ForegroundColor" Value="White"/>
+                <Setter Property="Shell.TitleColor" Value="White"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
+            </Style>
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <FlyoutItem Title="Accueil" Icon="accueil.png">
+        <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Gestion" Icon="parametre.png">
+        <Tab>
+            <ShellContent 
+                Title="Employés"
+                ContentTemplate="{DataTemplate local:GestionEmployePage}"/>
+            <ShellContent 
+                Title="Rayons"
+                ContentTemplate="{DataTemplate local:GestionRayonPage}"/>
+            <ShellContent 
+                Title="Secteurs"
+                ContentTemplate="{DataTemplate local:GestionSecteurPage}"/>
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Saisie des temps" Icon="horlogue.png">
+        <ShellContent ContentTemplate="{DataTemplate local:SaisieTempsPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Consultation" Icon="papier.png">
+        <ShellContent ContentTemplate="{DataTemplate local:ConsultationPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Statistiques" Icon="statistique.png">
+        <Tab>
+            <ShellContent 
+                Title="Statistique"
+                ContentTemplate="{DataTemplate local:StatistiquesPage}"/>
+
+            <ShellContent 
+                Title="Graphique"
+                ContentTemplate="{DataTemplate local:GraphiquePage}"/>
+        </Tab>
+    </FlyoutItem>
 
 </Shell>

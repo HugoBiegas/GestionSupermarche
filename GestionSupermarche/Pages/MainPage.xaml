@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionSupermarche.Pages.MainPage">
+
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" 
+              Padding="30,20" 
+              RowSpacing="25">
+
+            <!-- Logo -->
+            <Image Grid.Row="0"
+                   Source="application.png"
+                   HeightRequest="200"
+                   Aspect="AspectFit"
+                   SemanticProperties.Description="Logo de l'application de gestion supermarché" />
+
+            <!-- Contenu principal -->
+            <VerticalStackLayout Grid.Row="1" 
+                                Spacing="20" 
+                                VerticalOptions="Center">
+
+                <!-- Titre -->
+                <Label Text="Gestion Supermarché"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+
+                <!-- Card d'accueil -->
+                <Frame BorderColor="#e0e0e0"
+                       CornerRadius="10"
+                       Padding="20"
+                       Margin="0,20">
+
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="Bienvenue dans votre application de gestion"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"/>
+
+                        <Label Text="Cette application vous permet :"
+                               FontSize="16"
+                               Margin="0,10,0,0"/>
+
+                        <VerticalStackLayout Spacing="10"
+                                           Margin="20,0,0,0">
+                            <Label Text="• De gérés les temps de travail des employés"
+                                   FontSize="16"/>
+                            <Label Text="• De gérés les employés, les rayons et secteurs"
+                                   FontSize="16"/>
+                            <Label Text="• De voir les temps de travail des employés,les statistiques et les graphiques"
+                                   FontSize="16"/>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

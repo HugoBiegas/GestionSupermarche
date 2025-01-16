@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionSupermarche.Pages.GestionRayonPage"
+             Title="Gestion des Rayons">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+            <!-- Formulaire d'ajout -->
+            <Frame BorderColor="Gray" Padding="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Nouveau Rayon" 
+                           FontSize="Title" 
+                           HorizontalOptions="Center"/>
+
+                    <Entry x:Name="EntryNomRayon" 
+                           Placeholder="Nom du rayon"/>
+
+                    <Picker x:Name="PickerSecteur"
+                            Title="Sélectionnez un secteur"/>
+
+                    <Button x:Name="BtnAjouter" 
+                            Text="Ajouter"
+                            BackgroundColor="#2196F3"
+                            TextColor="White"
+                            Clicked="OnAjouterClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Liste des rayons -->
+            <Frame BorderColor="Gray" Padding="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Liste des Rayons" 
+                           FontSize="Title" 
+                           HorizontalOptions="Center"/>
+
+                    <ListView x:Name="ListViewRayons"
+                             HeightRequest="400"
+                             ItemSelected="OnRayonSelected">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding Nom}" 
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding NomSecteur}" 
+                                                   TextColor="Gray"
+                                                   FontSize="Small"/>
+                                        </VerticalStackLayout>
+                                        <Button Grid.Column="2"
+                                                Text="Supprimer"
+                                                BackgroundColor="#FF5252"
+                                                TextColor="White"
+                                                Clicked="OnSupprimerClicked"
+                                                Margin="5,0,0,0"
+                                                CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

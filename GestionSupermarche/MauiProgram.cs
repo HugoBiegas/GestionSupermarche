@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Microcharts.Maui;
 
 namespace GestionSupermarche
 {
@@ -11,16 +12,12 @@ namespace GestionSupermarche
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+                .UseMicrocharts()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
-            // Initialisation de la base de données SQLite
-            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "supermarche.db");
-            //builder.Services.AddSingleton<Services.Database>(s => ActivatorUtilities.CreateInstance<Services.Database>(s, dbPath));
-
 
 #if DEBUG
             builder.Logging.AddDebug();

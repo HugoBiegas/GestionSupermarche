@@ -58,19 +58,58 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
+		<PackageReference Include="Microcharts.Maui" Version="1.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+		<PackageReference Include="SkiaSharp" Version="3.116.1" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Models\" />
-	  <Folder Include="Repositories\" />
-	  <Folder Include="Pages\" />
-	  <Folder Include="Services\" />
-	  <Folder Include="utils\Convertisseurs\" />
+	  <Compile Update="Pages\ConsultationPage.xaml.cs">
+	    <DependentUpon>ConsultationPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\GestionEmployePage.xaml.cs">
+	    <DependentUpon>GestionEmployePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\GestionRayonPage.xaml.cs">
+	    <DependentUpon>GestionRayonPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\GestionSecteurPage.xaml.cs">
+	    <DependentUpon>GestionSecteurPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\SaisieTempsPage.xaml.cs">
+	    <DependentUpon>SaisieTempsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\StatistiquesPage.xaml.cs">
+	    <DependentUpon>StatistiquesPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\ConsultationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\GestionEmployePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\GestionRayonPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\GestionSecteurPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\GraphiquePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SaisieTempsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\StatistiquesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionSupermarche.Pages.GestionEmployePage"
+             Title="Gestion des Employés">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+            <Frame BorderColor="Gray" Padding="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Nouvel Employé" 
+                           FontSize="Title" 
+                           HorizontalOptions="Center"/>
+
+                    <Entry x:Name="EntryNomEmploye" 
+                           Placeholder="Nom de l'employé"/>
+
+                    <Button x:Name="BtnAjouterEmploye" 
+                            Text="Ajouter" 
+                            Clicked="OnAjouterEmployeClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame BorderColor="Gray" Padding="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Liste des Employés" 
+                           FontSize="Title" 
+                           HorizontalOptions="Center"/>
+
+                    <ListView x:Name="ListViewEmployes"
+                             ItemSelected="OnEmployeSelected">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text="{Binding Nom}" 
+                                               VerticalOptions="Center"/>
+                                        <Button Grid.Column="1" 
+                                                Text="Supprimer"
+                                                BackgroundColor="Red"
+                                                TextColor="White"
+                                                Clicked="OnSupprimerEmployeClicked"
+                                                CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

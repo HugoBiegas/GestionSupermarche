@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             x:Class="GestionSupermarche.Pages.GraphiquePage"
+             Title="Statistiques">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="20">
+            <!-- Graphique des heures par employé -->
+            <Frame BorderColor="Gray" 
+                   CornerRadius="10" 
+                   Padding="15"
+                   HasShadow="True">
+                <VerticalStackLayout>
+                    <Label Text="Heures travaillées par employé"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,10"/>
+                    <micro:ChartView x:Name="ChartViewEmployes" 
+                                   HeightRequest="300"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Graphique de la répartition par rayon -->
+            <Frame BorderColor="Gray" 
+                   CornerRadius="10" 
+                   Padding="15"
+                   HasShadow="True">
+                <VerticalStackLayout>
+                    <Label Text="Répartition des heures par rayon"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,10"/>
+                    <micro:ChartView x:Name="ChartViewRayons" 
+                                   HeightRequest="300"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Graphique de l'évolution mensuelle -->
+            <Frame BorderColor="Gray" 
+                   CornerRadius="10" 
+                   Padding="15"
+                   HasShadow="True">
+                <VerticalStackLayout>
+                    <Label Text="Évolution mensuelle des heures"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,10"/>
+                    <micro:ChartView x:Name="ChartViewMensuel" 
+                                   HeightRequest="300"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Bouton de rafraîchissement -->
+            <Button Text="Actualiser les graphiques"
+                    Clicked="OnRefreshButtonClicked"
+                    HorizontalOptions="Center"
+                    WidthRequest="200"
+                    Margin="0,10"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
