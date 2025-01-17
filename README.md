@@ -31,7 +31,7 @@ Application mobile et desktop développée avec .NET MAUI permettant de gérer l
 - Visualisation des données statistiques
 
 ### 6. Converter  
-- Un Converter pour la coloration des employés dans **GestionEmployé**, permettant de savoir si une personne a effectué ses 8 heures de travail aujourd'hui.(rouge si 0 heure, orange entre 1 et 8 heures, vert pour 8 heures ou plus)
+- Un Converter pour la coloration des employés dans **GestionEmployé**, permettant de savoir si une personne a effectué ses 8 heures de travail aujourd'hui. (rouge si 0 heure, orange entre 1 et 8 heures, vert pour 8 heures ou plus)
 - Un Converter pour s'assurer que la personne saisit un maximum de 24 heures, sans accepter de valeur décimale (pas de virgule).  
 
 ## Prérequis Techniques
