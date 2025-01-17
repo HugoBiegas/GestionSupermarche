@@ -5,6 +5,7 @@
              Title="Statistiques">
 
     <ScrollView>
+        
         <VerticalStackLayout Spacing="20" Padding="20">
 
             <Button Text="Rafraîchir les statistiques"

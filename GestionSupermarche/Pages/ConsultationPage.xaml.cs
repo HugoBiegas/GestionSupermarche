@@ -98,7 +98,8 @@ public partial class ConsultationPage : ContentPage
                 "Annuler",
                 null,
                 "Modifier la date",
-                "Modifier le nombre d'heures");
+                "Modifier le nombre d'heures",
+                "Modifier le rayon"); 
 
             switch (action)
             {
@@ -108,15 +109,63 @@ public partial class ConsultationPage : ContentPage
                 case "Modifier le nombre d'heures":
                     await ModifierHeures(tempsInfo);
                     break;
+                case "Modifier le rayon":
+                    await ModifierRayon(tempsInfo);
+                    break;
             }
         }
         ((ListView)sender).SelectedItem = null;
+    }
+    private async Task ModifierRayon(TempsTravailDto tempsActuel)
+    {
+        try
+        {
+            var rayons = await _rayonRepository.ObtenirTousLesRayons();
+            var rayonActuel = rayons.FirstOrDefault(r => r.Nom == tempsActuel.NomRayon);
+
+            var actionRayon = await DisplayActionSheet(
+                "Choisir le nouveau rayon",
+                "Annuler",
+                null,
+                rayons.Select(r => r.Nom).ToArray());
+
+            if (actionRayon == "Annuler" || actionRayon == null)
+                return;
+
+            var temps = await _tempsTravailRepository.GetTempsTravailById(tempsActuel.IdTempsTravail);
+            var nouveauRayon = rayons.First(r => r.Nom == actionRayon);
+
+            if (temps != null)
+            {
+                bool disponible = await _tempsTravailRepository.VerifierDisponibiliteEmploye(
+                    _selectedEmploye.IdEmploye, nouveauRayon.IdRayon, temps.Date);
+
+                if (!disponible)
+                {
+                    await DisplayAlert("Erreur",
+                        "L'employé travaille déjà dans ce rayon à cette date",
+                        "OK");
+                    return;
+                }
+
+                temps.IdRayon = nouveauRayon.IdRayon;
+                await _tempsTravailRepository.ModifierTempsTravail(temps);
+                await DisplayAlert("Succès", "Rayon modifié avec succès", "OK");
+                await ChargerTempsEmploye();
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erreur", $"Erreur lors de la modification : {ex.Message}", "OK");
+        }
     }
 
     private async Task ModifierDate(TempsTravailDto tempsActuel)
     {
         try
         {
+            var employeIndex = PickerEmploye.SelectedIndex;
+
             var datePage = new ContentPage();
             var dateStack = new VerticalStackLayout
             {
@@ -167,13 +216,15 @@ public partial class ConsultationPage : ContentPage
                     await _tempsTravailRepository.ModifierTempsTravail(temps);
                     await DisplayAlert("Succès", "Date modifiée avec succès", "OK");
                     await Navigation.PopModalAsync();
-                    await ChargerTempsEmploye();
+
+                    await RechargerDonneesAvecSelection(employeIndex);
                 }
             };
 
             btnAnnuler.Clicked += async (s, e) =>
             {
                 await Navigation.PopModalAsync();
+                await RechargerDonneesAvecSelection(employeIndex);
             };
 
             await Navigation.PushModalAsync(new NavigationPage(datePage));
@@ -181,6 +232,20 @@ public partial class ConsultationPage : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Erreur", $"Erreur lors de la modification : {ex.Message}", "OK");
+        }
+    }
+
+    private async Task RechargerDonneesAvecSelection(int indexASelectionner)
+    {
+        ChargerEmployes();
+
+        if (indexASelectionner >= 0 && indexASelectionner < PickerEmploye.Items.Count)
+        {
+            PickerEmploye.SelectedIndex = indexASelectionner;
+            _selectedEmploye = _employes[indexASelectionner];
+
+            await ChargerTempsEmploye();
+            OnPropertyChanged(nameof(HasEmployeSelected));
         }
     }
 

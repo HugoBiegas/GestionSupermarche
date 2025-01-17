@@ -28,7 +28,9 @@
                            HorizontalOptions="Center"/>
 
                     <ListView x:Name="ListViewEmployes"
-                             ItemSelected="OnEmployeSelected">
+                             HeightRequest="400"
+                             ItemSelected="OnEmployeSelected"
+                              SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
