@@ -11,6 +11,11 @@ public partial class GraphiquePage : ContentPage
     private readonly TempsTravailRepository _tempsTravailRepository;
     private readonly EmployeRepository _employeRepository;
     private readonly RayonRepository _rayonRepository;
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ChargerGraphiques();
+    }
 
     public GraphiquePage()
     {
@@ -18,12 +23,6 @@ public partial class GraphiquePage : ContentPage
         _tempsTravailRepository = new TempsTravailRepository(Database.GetConnection());
         _employeRepository = new EmployeRepository(Database.GetConnection());
         _rayonRepository = new RayonRepository(Database.GetConnection());
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        ChargerGraphiques();
     }
 
     private async void ChargerGraphiques()

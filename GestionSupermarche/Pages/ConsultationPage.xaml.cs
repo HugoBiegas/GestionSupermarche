@@ -14,18 +14,19 @@ public partial class ConsultationPage : ContentPage
     private Employe _selectedEmploye;
     public bool HasEmployeSelected => _selectedEmploye != null;
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        ReinitialiserChamps();
+        ChargerEmployes();
+    }
+
     public ConsultationPage()
     {
         InitializeComponent();
         _tempsTravailRepository = new TempsTravailRepository(Database.GetConnection());
         _employeRepository = new EmployeRepository(Database.GetConnection());
         _rayonRepository = new RayonRepository(Database.GetConnection());
-    }
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        ReinitialiserChamps();
-        ChargerEmployes();
     }
 
     private void ReinitialiserChamps()

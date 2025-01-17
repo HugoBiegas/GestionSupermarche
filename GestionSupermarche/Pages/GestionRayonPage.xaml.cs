@@ -10,6 +10,11 @@ public partial class GestionRayonPage : ContentPage
     private readonly RayonRepository _rayonRepository;
     private readonly SecteurRepository _secteurRepository;
     private List<Secteur> _secteurs;
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ChargerDonnees();
+    }
 
     public GestionRayonPage()
     {
@@ -199,11 +204,5 @@ public partial class GestionRayonPage : ContentPage
         {
             await DisplayAlert("Erreur", "Erreur lors de la suppression: " + ex.Message, "OK");
         }
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        ChargerDonnees();
     }
 }

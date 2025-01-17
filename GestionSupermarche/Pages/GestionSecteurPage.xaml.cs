@@ -10,6 +10,12 @@ public partial class GestionSecteurPage : ContentPage
     private readonly SecteurRepository _secteurRepository;
     private readonly RayonRepository _rayonRepository;
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ChargerSecteurs();
+    }
+
     public GestionSecteurPage()
     {
         InitializeComponent();
@@ -132,11 +138,5 @@ public partial class GestionSecteurPage : ContentPage
         {
             await DisplayAlert("Erreur", "Erreur lors de la suppression du secteur: " + ex.Message, "OK");
         }
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        ChargerSecteurs();
     }
 }
