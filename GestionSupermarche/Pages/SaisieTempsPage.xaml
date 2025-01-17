@@ -29,7 +29,7 @@
                        Placeholder="Nombre d'heures (0-24)"
                        Keyboard="Numeric"
                        MaxLength="2"
-                       Text="{Binding HeuresText, Converter={StaticResource HeuresConverter}, Mode=TwoWay}"/>
+                       Text="{Binding HeuresText, Converter={StaticResource HeuresConverter}}"/>
 
 
                     <Button Text="Enregistrer"

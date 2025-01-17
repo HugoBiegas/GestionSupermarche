@@ -8,25 +8,21 @@
               Padding="30,20" 
               RowSpacing="25">
 
-            <!-- Logo -->
             <Image Grid.Row="0"
                    Source="application.png"
                    HeightRequest="200"
                    Aspect="AspectFit"
                    SemanticProperties.Description="Logo de l'application de gestion supermarché" />
 
-            <!-- Contenu principal -->
             <VerticalStackLayout Grid.Row="1" 
                                 Spacing="20" 
                                 VerticalOptions="Center">
 
-                <!-- Titre -->
                 <Label Text="Gestion Supermarché"
                        FontSize="32"
                        FontAttributes="Bold"
                        HorizontalOptions="Center"/>
 
-                <!-- Card d'accueil -->
                 <Frame BorderColor="#e0e0e0"
                        CornerRadius="10"
                        Padding="20"

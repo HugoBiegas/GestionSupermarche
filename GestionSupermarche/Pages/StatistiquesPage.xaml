@@ -7,11 +7,9 @@
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="20">
 
-            <!-- Bouton de rafraîchissement -->
             <Button Text="Rafraîchir les statistiques"
                     Clicked="OnRafraichirClicked"/>
             
-            <!-- Total général -->
             <Frame BorderColor="Gray" Padding="15">
                 <StackLayout>
                     <Label Text="Total Général" 
@@ -24,13 +22,13 @@
                 </StackLayout>
             </Frame>
             
-            <!-- Heures par employé -->
             <Frame BorderColor="Gray" Padding="15">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Heures par Employé" 
                            FontSize="Title" 
                            HorizontalOptions="Center"/>
                     <ListView x:Name="ListViewHeuresEmployes"
+                              SelectionMode="None"
                              HeightRequest="150">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -53,13 +51,13 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Heures par rayon -->
             <Frame BorderColor="Gray" Padding="15">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Heures par Rayon" 
                            FontSize="Title" 
                            HorizontalOptions="Center"/>
                     <ListView x:Name="ListViewHeuresRayons"
+                              SelectionMode="None"
                              HeightRequest="150">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -82,13 +80,13 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Heures par mois -->
             <Frame BorderColor="Gray" Padding="15">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Heures par Mois" 
                            FontSize="Title" 
                            HorizontalOptions="Center"/>
                     <ListView x:Name="ListViewHeuresMois"
+                              SelectionMode="None"
                              HeightRequest="150">
                         <ListView.ItemTemplate>
                             <DataTemplate>

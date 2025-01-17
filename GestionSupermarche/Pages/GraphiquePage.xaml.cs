@@ -1,7 +1,8 @@
 using GestionSupermarche.Repositories;
+using OxyPlot;
+using OxyPlot.Series;
+using OxyPlot.Axes;
 using GestionSupermarche.Services;
-using Microcharts;
-using SkiaSharp;
 
 namespace GestionSupermarche.Pages;
 
@@ -10,143 +11,220 @@ public partial class GraphiquePage : ContentPage
     private readonly TempsTravailRepository _tempsTravailRepository;
     private readonly EmployeRepository _employeRepository;
     private readonly RayonRepository _rayonRepository;
-    private readonly string[] _couleurs = new[]
-    {
-        "#2c3e50",  // Bleu foncé
-        "#e74c3c",  // Rouge
-        "#2ecc71",  // Vert
-        "#f1c40f",  // Jaune
-        "#9b59b6",  // Violet
-        "#3498db",  // Bleu clair
-        "#e67e22"   // Orange
-    };
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        //ChargerGraphiques();
-    }
 
     public GraphiquePage()
     {
         InitializeComponent();
-
-        // Initialisation des repositories
         _tempsTravailRepository = new TempsTravailRepository(Database.GetConnection());
         _employeRepository = new EmployeRepository(Database.GetConnection());
         _rayonRepository = new RayonRepository(Database.GetConnection());
-
-        //ChargerGraphiques();
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ChargerGraphiques();
+    }
 
     private async void ChargerGraphiques()
     {
+        await ChargerGraphiqueHeuresMois();
+        await ChargerGraphiqueHeuresEmployes();
+        await ChargerGraphiqueHeuresRayons();
+    }
+
+    private async Task ChargerGraphiqueHeuresMois()
+    {
         try
         {
-            await ChargerGraphiqueEmployes();
-            await ChargerGraphiqueRayons();
-            await ChargerGraphiqueMensuel();
+            var temps = await _tempsTravailRepository.ObtenirTousLesTemps();
+            var donnees = temps
+                .GroupBy(t => new { t.Date.Year, t.Date.Month })
+                .Select(g => new
+                {
+                    Mois = $"{g.Key.Month:00}/{g.Key.Year}",
+                    TotalHeures = g.Sum(t => t.Temps)
+                })
+                .OrderBy(s => s.Mois)
+                .ToList();
+
+            var model = new PlotModel
+            {
+                Title = "Heures par Mois",
+                TextColor = OxyColors.Black
+            };
+
+            var axeX = new CategoryAxis
+            {
+                Position = AxisPosition.Bottom,
+                Title = "Mois",
+                TitleColor = OxyColors.Black,
+                TicklineColor = OxyColors.Black,
+                Angle = 45,
+                IsZoomEnabled = false
+            };
+
+            foreach (var item in donnees)
+            {
+                axeX.Labels.Add(item.Mois);
+            }
+
+            var maxHeures = donnees.Max(d => d.TotalHeures);
+            var maxArrondi = Math.Ceiling(maxHeures / 10.0) * 10 + 10;
+
+            var axeY = new LinearAxis
+            {
+                Position = AxisPosition.Left,
+                Title = "Heures",
+                TitleColor = OxyColors.Black,
+                TicklineColor = OxyColors.Black,
+                Minimum = 0,
+                Maximum = maxArrondi,
+                MajorStep = 50, 
+                MinorStep = 10,  
+                IsZoomEnabled = false,
+                StringFormat = "0",
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
+                AxisDistance = 20,
+                AxislineStyle = LineStyle.Solid,
+                AxislineThickness = 1
+            };
+
+            model.Axes.Add(axeX);
+            model.Axes.Add(axeY);
+
+            var lineSeries = new LineSeries
+            {
+                Title = "Heures",
+                Color = OxyColors.Blue,
+                MarkerType = MarkerType.Circle,
+                MarkerSize = 6,
+                MarkerStroke = OxyColors.Blue,
+                MarkerFill = OxyColors.White,
+                StrokeThickness = 2,
+                LabelFormatString = "{1:0}h",
+                TrackerFormatString = "Mois: {2}\nHeures: {4:0}",
+                LineStyle = LineStyle.Solid
+            };
+
+            for (int i = 0; i < donnees.Count; i++)
+            {
+                lineSeries.Points.Add(new DataPoint(i, donnees[i].TotalHeures));
+            }
+
+            model.Series.Add(lineSeries);
+
+            model.IsLegendVisible = false;
+            model.PlotMargins = new OxyThickness(40, 20, 20, 40);
+            model.PlotAreaBorderThickness = new OxyThickness(1);
+            model.PlotAreaBorderColor = OxyColors.Black;
+
+            GraphiqueHeuresMois.Model = model;
         }
         catch (Exception ex)
         {
             await DisplayAlert("Erreur",
-                "Une erreur est survenue lors du chargement des graphiques.", "OK");
+                "Erreur lors du chargement du graphique des heures par mois: " + ex.Message,
+                "OK");
         }
     }
 
-    private async Task ChargerGraphiqueEmployes()
-    {
-        var employes = await _employeRepository.ObtenirTousLesEmployes();
-        List<ChartEntry> entries = new List<ChartEntry>();
-
-        for (int i = 0; i < employes.Count; i++)
-        {
-            float heures = (float)await _tempsTravailRepository
-                .CalculerTotalHeuresEmploye(employes[i].IdEmploye);
-
-            entries.Add(new ChartEntry(heures)
-            {
-                Label = employes[i].Nom,
-                ValueLabel = heures.ToString("F1"),
-                Color = SKColor.Parse(_couleurs[i % _couleurs.Length]),
-                TextColor = SKColors.Gray,
-                ValueLabelColor = SKColors.Black
-            });
-        }
-
-        ChartViewEmployes.Chart = new BarChart { Entries = entries.ToArray() };
-    }
-
-
-    private async Task ChargerGraphiqueRayons()
-    {
-        var rayons = await _rayonRepository.ObtenirTousLesRayons();
-        List<ChartEntry> entries = new List<ChartEntry>();
-
-        for (int i = 0; i < rayons.Count; i++)
-        {
-            float heures = (float)await _rayonRepository
-                .CalculerTotalHeuresParRayon(rayons[i].IdRayon);
-
-            entries.Add(new ChartEntry(heures)
-            {
-                Label = rayons[i].Nom,
-                ValueLabel = heures.ToString("F1"),
-                Color = SKColor.Parse(_couleurs[i % _couleurs.Length]),
-                TextColor = SKColors.Gray,
-                ValueLabelColor = SKColors.Black
-            });
-        }
-
-        ChartViewRayons.Chart = new DonutChart { Entries = entries.ToArray() };
-    }
-
-    private async Task ChargerGraphiqueMensuel()
-    {
-        var temps = await _tempsTravailRepository.ObtenirTousLesTemps();
-        var donneesMensuelles = temps
-            .GroupBy(t => new { t.Date.Year, t.Date.Month })
-            .OrderBy(g => g.Key.Year)
-            .ThenBy(g => g.Key.Month)
-            .Take(12)
-            .ToList();
-
-        List<ChartEntry> entries = new List<ChartEntry>();
-
-        for (int i = 0; i < donneesMensuelles.Count; i++)
-        {
-            var mois = donneesMensuelles[i];
-            float totalHeures = (float)mois.Sum(t => t.Temps);
-
-            entries.Add(new ChartEntry(totalHeures)
-            {
-                Label = $"{mois.Key.Month:00}/{mois.Key.Year}",
-                ValueLabel = totalHeures.ToString("F1"),
-                Color = SKColor.Parse(_couleurs[0]),
-                TextColor = SKColors.Gray,
-                ValueLabelColor = SKColors.Black
-            });
-        }
-
-        ChartViewMensuel.Chart = new LineChart { Entries = entries.ToArray() };
-    }
-
-    private async void OnRefreshButtonClicked(object sender, EventArgs e)
+    private async Task ChargerGraphiqueHeuresEmployes()
     {
         try
         {
-            // Afficher un indicateur de chargement
+            var employes = await _employeRepository.ObtenirTousLesEmployes();
+            var model = new PlotModel
+            {
+                Title = "Répartition par Employé",
+                TextColor = OxyColors.Black
+            };
+
+            var series = new PieSeries
+            {
+                StrokeThickness = 2.0,
+                InsideLabelPosition = 0.8,
+                AngleSpan = 360,
+                StartAngle = 0
+            };
+
+            foreach (var employe in employes)
+            {
+                double totalHeures = await _tempsTravailRepository
+                    .CalculerTotalHeuresEmploye(employe.IdEmploye);
+
+                series.Slices.Add(new PieSlice(employe.Nom, totalHeures)
+                {
+                    IsExploded = true
+                });
+            }
+
+            model.Series.Add(series);
+            GraphiqueHeuresEmployes.Model = model;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erreur",
+                "Erreur lors du chargement du graphique des heures par employé: " + ex.Message,
+                "OK");
+        }
+    }
+
+    private async Task ChargerGraphiqueHeuresRayons()
+    {
+        try
+        {
+            var rayons = await _rayonRepository.ObtenirTousLesRayons();
+            var model = new PlotModel
+            {
+                Title = "Répartition par Rayon",
+                TextColor = OxyColors.Black
+            };
+
+            var series = new PieSeries
+            {
+                StrokeThickness = 2.0,
+                InsideLabelPosition = 0.8,
+                AngleSpan = 360,
+                StartAngle = 0
+            };
+
+            foreach (var rayon in rayons)
+            {
+                double totalHeures = await _rayonRepository
+                    .CalculerTotalHeuresParRayon(rayon.IdRayon);
+
+                series.Slices.Add(new PieSlice(rayon.Nom, totalHeures)
+                {
+                    IsExploded = true
+                });
+            }
+
+            model.Series.Add(series);
+            GraphiqueHeuresRayons.Model = model;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erreur",
+                "Erreur lors du chargement du graphique des heures par rayon: " + ex.Message,
+                "OK");
+        }
+    }
+
+    private async void OnRafraichirClicked(object sender, EventArgs e)
+    {
+        try
+        {
             IsBusy = true;
-
-            await Task.Run(ChargerGraphiques);
-
-            await DisplayAlert("Succès",
-                "Les graphiques ont été actualisés avec succès.", "OK");
+            ChargerGraphiques();
+            await DisplayAlert("Succès", "Les graphiques ont été mis à jour", "OK");
         }
         catch (Exception ex)
         {
             await DisplayAlert("Erreur",
-                "Une erreur est survenue lors de l'actualisation.", "OK");
+                "Une erreur est survenue lors du rafraîchissement des graphiques: " + ex.Message,
+                "OK");
         }
         finally
         {

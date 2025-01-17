@@ -6,7 +6,6 @@
 
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="20">
-            <!-- Formulaire d'ajout -->
             <Frame BorderColor="Gray" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Nouveau Secteur" 
@@ -24,7 +23,6 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Liste des secteurs -->
             <Frame BorderColor="Gray" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Liste des Secteurs" 

@@ -6,7 +6,6 @@
 
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="20">
-            <!-- Formulaire d'ajout -->
             <Frame BorderColor="Gray" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Nouveau Rayon" 
@@ -27,7 +26,6 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Liste des rayons -->
             <Frame BorderColor="Gray" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Liste des Rayons" 

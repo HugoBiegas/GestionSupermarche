@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Maui;
-using Microcharts.Maui;
 using Microsoft.Extensions.Logging;
+using OxyPlot.Maui.Skia;
+using SkiaSharp.Views.Maui.Controls.Hosting;
+
 
 namespace GestionSupermarche
 {
@@ -12,7 +14,8 @@ namespace GestionSupermarche
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
-                .UseMicrocharts()
+                .UseSkiaSharp()
+                .UseOxyPlotSkia()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
