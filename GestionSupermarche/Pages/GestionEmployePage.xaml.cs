@@ -14,7 +14,6 @@ public partial class GestionEmployePage : ContentPage
         ChargerEmployes();
     }
 
-
     public GestionEmployePage()
     {
         InitializeComponent();

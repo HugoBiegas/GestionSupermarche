@@ -1,5 +1,4 @@
-﻿// Converters/EmployeHeuresBackgroundConverter.cs
-using System.Globalization;
+﻿using System.Globalization;
 using GestionSupermarche.Repositories;
 using GestionSupermarche.Services;
 using GestionSupermarche.Models;
@@ -29,9 +28,9 @@ namespace GestionSupermarche.Converters
 
                 return heuresAujourdhui switch
                 {
-                    0 => Color.FromArgb("#FFCDD2"),  
-                    <= 8 => Color.FromArgb("#FFE0B2"), 
-                    _ => Color.FromArgb("#C8E6C9")   
+                    0 => Color.FromArgb("#FFCDD2"),
+                    <= 8 => Color.FromArgb("#FFE0B2"),
+                    _ => Color.FromArgb("#C8E6C9")
                 };
             }
             catch (Exception)
