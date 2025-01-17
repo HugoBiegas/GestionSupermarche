@@ -40,8 +40,8 @@ Application mobile et desktop développée avec .NET MAUI permettant de gérer l
 - `SQLitePCLRaw.bundle_green` : Provider SQLite
 
 #### Graphiques
-- `Microcharts` : Bibliothèque légère pour créer des graphiques simples et élégants
-- `Microcharts.Maui` : Plugin qui adapte Microcharts pour fonctionner avec .NET MAUI
+- `OxyPlot.Maui.Skia` : Bibliothèque de visualisation de données avancée permettant de créer des graphiques interactifs et personnalisables. Compatible avec .NET MAUI via le moteur de rendu SkiaSharp.
+- `SkiaSharp` : Moteur de rendu graphique 2D cross-platform utilisé comme base pour OxyPlot. Offre des performances optimales pour le dessin de formes, courbes et graphiques.
 
 #### Interface Utilisateur
 - `CommunityToolkit.Maui` : Composants UI additionnels
