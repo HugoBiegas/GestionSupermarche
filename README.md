@@ -34,6 +34,13 @@ Application mobile et desktop développée avec .NET MAUI permettant de gérer l
 - Un Converter pour la coloration des employés dans **GestionEmployé**, permettant de savoir si une personne a effectué ses 8 heures de travail aujourd'hui. (rouge si 0 heure, orange entre 1 et 8 heures, vert pour 8 heures ou plus)
 - Un Converter pour s'assurer que la personne saisit un maximum de 24 heures, sans accepter de valeur décimale (pas de virgule).  
 
+### 7. Bonus
+#### Audio
+- Intégration d'une musique de fond
+- Lecture en boucle infinie : la musique redémarre automatiquement une fois terminée
+- La musique est présente sur toutes les pages de l'application
+- Arrêt automatique de la musique lors de la fermeture ou de l'arrêt de l'application
+  
 ## Prérequis Techniques
 
 ### Packages NuGet Utilisés
@@ -48,6 +55,9 @@ Application mobile et desktop développée avec .NET MAUI permettant de gérer l
 
 #### Interface Utilisateur
 - `CommunityToolkit.Maui` : Composants UI additionnels
+
+#### Audio
+- `Plugin.Maui.Audio` : Gestion de la lecture audio cross-platform pour .NET MAUI
 
 ### Configuration
 
