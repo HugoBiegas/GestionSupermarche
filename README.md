@@ -28,7 +28,7 @@ Application mobile et desktop développée avec .NET MAUI permettant de gérer l
 - Total des heures par mois
 
 ### 5. Visualisations
-- Graphiques variés (courbes, histogrammes, camemberts)
+- Graphiques variés (histogrammes,barre de progression, camemberts)
 - Visualisation des données statistiques
 
 ## Prérequis Techniques
