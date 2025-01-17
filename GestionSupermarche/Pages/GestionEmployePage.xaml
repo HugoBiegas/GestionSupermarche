@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:GestionSupermarche.Converters"
              x:Class="GestionSupermarche.Pages.GestionEmployePage"
              Title="Gestion des Employés">
+
+    <ContentPage.Resources>
+        <converters:EmployeHeuresBackgroundConverter x:Key="HeuresBackgroundConverter"/>
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="20">
@@ -34,7 +39,8 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Grid Padding="10">
+                                    <Grid Padding="10" 
+                                          BackgroundColor="{Binding ., Converter={StaticResource HeuresBackgroundConverter}}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
@@ -42,14 +48,14 @@
                                         <Label Text="{Binding Nom}" 
                                                VerticalOptions="Center"/>
                                         <ImageButton Grid.Column="1"
-                                             Source="poubelle_icon.png" 
-                                             BackgroundColor="Transparent"
-                                             Clicked="OnSupprimerEmployeClicked"
-                                             CommandParameter="{Binding .}" 
-                                             HeightRequest="35" 
-                                             WidthRequest="35"
-                                             HorizontalOptions="Center"
-                                             VerticalOptions="Center" />
+                                                     Source="poubelle_icon.png" 
+                                                     BackgroundColor="Transparent"
+                                                     Clicked="OnSupprimerEmployeClicked"
+                                                     CommandParameter="{Binding .}" 
+                                                     HeightRequest="35" 
+                                                     WidthRequest="35"
+                                                     HorizontalOptions="Center"
+                                                     VerticalOptions="Center" />
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>

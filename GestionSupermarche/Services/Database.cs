@@ -24,11 +24,9 @@ namespace GestionSupermarche.Services
             await _connection.CreateTableAsync<Rayon>();
             await _connection.CreateTableAsync<TempsTravail>();
 
-            // Vérifier si des données existent déjà
             //int num = await _connection.Table<Employe>().CountAsync();
             //if (num == 0)
             //{
-            //    // Ajouter des données de test
             //    var employe = new Employe { Nom = "Fortin" };
             //    await _connection.InsertAsync(employe);
             //    employe = new Employe { Nom = "Alison" };

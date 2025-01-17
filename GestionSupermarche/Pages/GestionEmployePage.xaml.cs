@@ -8,10 +8,18 @@ public partial class GestionEmployePage : ContentPage
 {
     private readonly EmployeRepository _employeRepository;
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ChargerEmployes();
+    }
+
+
     public GestionEmployePage()
     {
         InitializeComponent();
         _employeRepository = new EmployeRepository(Database.GetConnection());
+
         ChargerEmployes();
     }
 

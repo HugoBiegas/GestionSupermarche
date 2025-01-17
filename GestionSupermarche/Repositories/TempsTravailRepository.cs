@@ -17,6 +17,14 @@ namespace GestionSupermarche.Repositories
             return await _connection.Table<TempsTravail>().ToListAsync();
         }
 
+        public async Task<double> GetHeuresAujourdhui(int idEmploye)
+        {
+            var tempsAujourdhui = await ObtenirTempsParEmploye(idEmploye);
+            return tempsAujourdhui
+                .Where(t => t.Date.Date == DateTime.Today)
+                .Sum(t => t.Temps);
+        }
+
         public async Task<List<TempsTravail>> ObtenirTempsParEmploye(int idEmploye)
         {
             return await _connection.Table<TempsTravail>()
