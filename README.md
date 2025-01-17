@@ -35,7 +35,6 @@ Application mobile et desktop développée avec .NET MAUI permettant de gérer l
 - Un Converter pour s'assurer que la personne saisit un maximum de 24 heures, sans accepter de valeur décimale (pas de virgule).  
 
 ### 7. Bonus
-#### Audio
 - Intégration d'une musique de fond
 - Lecture en boucle infinie : la musique redémarre automatiquement une fois terminée
 - La musique est présente sur toutes les pages de l'application
