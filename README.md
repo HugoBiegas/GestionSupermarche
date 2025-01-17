@@ -24,7 +24,6 @@ Application mobile et desktop développée avec .NET MAUI permettant de gérer l
 - Nombre d'heures par employé
 - Total des heures par rayon
 - Total général des heures
-- Nombre de rayons par secteur
 - Total des heures par mois
 
 ### 5. Visualisations
