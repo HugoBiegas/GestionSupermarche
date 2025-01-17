@@ -149,10 +149,10 @@ public partial class GraphiquePage : ContentPage
                 IsZoomEnabled = false,
             };
 
-            var donnees = new List<double>();
+            var donnees = new List<int>();
             foreach (var employe in employes)
             {
-                double totalHeures = await _tempsTravailRepository
+                int totalHeures = await _tempsTravailRepository
                     .CalculerTotalHeuresEmploye(employe.IdEmploye);
                 donnees.Add(totalHeures);
                 axeY.Labels.Add(employe.Nom);
@@ -239,7 +239,7 @@ public partial class GraphiquePage : ContentPage
 
             foreach (var rayon in rayons)
             {
-                double totalHeures = await _rayonRepository
+                int totalHeures = await _rayonRepository
                     .CalculerTotalHeuresParRayon(rayon.IdRayon);
 
                 series.Slices.Add(new PieSlice(rayon.Nom, totalHeures)

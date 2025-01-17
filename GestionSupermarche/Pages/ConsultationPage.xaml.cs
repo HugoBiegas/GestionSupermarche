@@ -67,7 +67,7 @@ public partial class ConsultationPage : ContentPage
 
         ListViewTemps.ItemsSource = tempsDetailles;
 
-        double totalHeures = temps.Sum(t => t.Temps);
+        int totalHeures = temps.Sum(t => t.Temps);
         LabelTotalHeures.Text = $"Total: {totalHeures}h";
     }
 

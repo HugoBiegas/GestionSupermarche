@@ -17,7 +17,7 @@ namespace GestionSupermarche.Repositories
             return await _connection.Table<TempsTravail>().ToListAsync();
         }
 
-        public async Task<double> GetHeuresAujourdhui(int idEmploye)
+        public async Task<int> GetHeuresAujourdhui(int idEmploye)
         {
             var tempsAujourdhui = await ObtenirTempsParEmploye(idEmploye);
             return tempsAujourdhui
@@ -62,7 +62,7 @@ namespace GestionSupermarche.Repositories
             return await _connection.InsertAsync(tempsTravail);
         }
 
-        public async Task<double> CalculerTotalHeuresEmploye(int idEmploye)
+        public async Task<int> CalculerTotalHeuresEmploye(int idEmploye)
         {
             var temps = await _connection.Table<TempsTravail>()
                 .Where(t => t.IdEmploye == idEmploye)
@@ -70,7 +70,7 @@ namespace GestionSupermarche.Repositories
             return temps.Sum(t => t.Temps);
         }
 
-        public async Task<double> CalculerTotalHeuresParMois(int annee, int mois)
+        public async Task<int> CalculerTotalHeuresParMois(int annee, int mois)
         {
             var temps = await _connection.Table<TempsTravail>()
                 .Where(t => t.Date.Year == annee && t.Date.Month == mois)
@@ -78,7 +78,7 @@ namespace GestionSupermarche.Repositories
             return temps.Sum(t => t.Temps);
         }
 
-        public async Task<double> CalculerTotalHeuresGeneral()
+        public async Task<int> CalculerTotalHeuresGeneral()
         {
             var temps = await _connection.Table<TempsTravail>().ToListAsync();
             return temps.Sum(t => t.Temps);

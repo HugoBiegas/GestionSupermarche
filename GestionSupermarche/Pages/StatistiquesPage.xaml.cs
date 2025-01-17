@@ -40,7 +40,7 @@ public partial class StatistiquesPage : ContentPage
 
         foreach (var employe in employes)
         {
-            double totalHeures = await _tempsTravailRepository.CalculerTotalHeuresEmploye(employe.IdEmploye);
+            int totalHeures = await _tempsTravailRepository.CalculerTotalHeuresEmploye(employe.IdEmploye);
             statistiques.Add(new
             {
                 employe.Nom,
@@ -58,7 +58,7 @@ public partial class StatistiquesPage : ContentPage
 
         foreach (var rayon in rayons)
         {
-            double totalHeures = await _rayonRepository.CalculerTotalHeuresParRayon(rayon.IdRayon);
+            int totalHeures = await _rayonRepository.CalculerTotalHeuresParRayon(rayon.IdRayon);
             statistiques.Add(new
             {
                 rayon.Nom,
@@ -87,7 +87,7 @@ public partial class StatistiquesPage : ContentPage
 
     private async Task ChargerTotalGeneral()
     {
-        double totalGeneral = await _tempsTravailRepository.CalculerTotalHeuresGeneral();
+        int totalGeneral = await _tempsTravailRepository.CalculerTotalHeuresGeneral();
         LabelTotalGeneral.Text = $"{totalGeneral}h";
     }
 

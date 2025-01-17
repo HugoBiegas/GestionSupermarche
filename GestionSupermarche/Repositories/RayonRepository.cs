@@ -46,7 +46,7 @@ namespace GestionSupermarche.Repositories
             return await _connection.DeleteAsync(rayon);
         }
 
-        public async Task<double> CalculerTotalHeuresParRayon(int idRayon)
+        public async Task<int> CalculerTotalHeuresParRayon(int idRayon)
         {
             var temps = await _connection.Table<TempsTravail>()
                 .Where(t => t.IdRayon == idRayon)

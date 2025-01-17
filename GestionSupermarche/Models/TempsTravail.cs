@@ -18,6 +18,6 @@ namespace GestionSupermarche.Models
         public DateTime Date { get; set; }
 
         [Column("Temps")]
-        public double Temps { get; set; }
+        public int Temps { get; set; }
     }
 }

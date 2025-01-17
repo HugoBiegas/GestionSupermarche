@@ -89,7 +89,7 @@ public partial class SaisieTempsPage : ContentPage
             return;
         }
 
-        if (!double.TryParse(EntryHeures.Text, out double heures) || heures <= 0 || heures > 24)
+        if (!int.TryParse(EntryHeures.Text, out int heures) || heures <= 0 || heures > 24)
         {
             await DisplayAlert("Erreur", "Veuillez saisir un nombre d'heures valide (entre 1 et 24)", "OK");
             return;
