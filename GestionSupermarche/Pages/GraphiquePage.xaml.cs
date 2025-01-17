@@ -137,30 +137,78 @@ public partial class GraphiquePage : ContentPage
             var employes = await _employeRepository.ObtenirTousLesEmployes();
             var model = new PlotModel
             {
-                Title = "Répartition par Employé",
+                Title = "Répartition des heures par Employé",
                 TextColor = OxyColors.Black
             };
 
-            var series = new PieSeries
+            var axeY = new CategoryAxis
             {
-                StrokeThickness = 2.0,
-                InsideLabelPosition = 0.8,
-                AngleSpan = 360,
-                StartAngle = 0
+                Position = AxisPosition.Left,
+                Title = "Employés",
+                TitleColor = OxyColors.Black,
+                TicklineColor = OxyColors.Black,
+                IsZoomEnabled = false,
             };
 
+            var donnees = new List<double>();
             foreach (var employe in employes)
             {
                 double totalHeures = await _tempsTravailRepository
                     .CalculerTotalHeuresEmploye(employe.IdEmploye);
+                donnees.Add(totalHeures);
+                axeY.Labels.Add(employe.Nom);
+            }
 
-                series.Slices.Add(new PieSlice(employe.Nom, totalHeures)
-                {
-                    IsExploded = true
-                });
+            var maxHeures = donnees.Max();
+            var maxArrondi = Math.Ceiling(maxHeures / 50.0) * 50 + 50;
+
+            var axeX = new LinearAxis
+            {
+                Position = AxisPosition.Bottom,
+                Title = "Heures",
+                TitleColor = OxyColors.Black,
+                TicklineColor = OxyColors.Black,
+                Minimum = 0,
+                Maximum = maxArrondi,
+                MajorStep = 50,
+                MinorStep = 10,
+                IsZoomEnabled = false,
+                StringFormat = "0",
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
+                AxisDistance = 20,
+                AxislineStyle = LineStyle.Solid,
+                AxislineThickness = 1,
+                MajorGridlineThickness = 1,
+                MinorGridlineThickness = 0.5,
+                TextColor = OxyColors.Black
+            };
+
+            model.Axes.Add(axeY);
+            model.Axes.Add(axeX);
+
+            var series = new BarSeries
+            {
+                FillColor = OxyColors.LightBlue,
+                StrokeColor = OxyColors.Blue,
+                StrokeThickness = 1,
+                BarWidth = 0.8,
+                LabelPlacement = LabelPlacement.Outside,
+                LabelFormatString = "{0}h"
+            };
+
+            for (int i = 0; i < donnees.Count; i++)
+            {
+                series.Items.Add(new BarItem { Value = donnees[i] });
             }
 
             model.Series.Add(series);
+
+            model.IsLegendVisible = false;
+            model.PlotMargins = new OxyThickness(60, 20, 20, 40);
+            model.PlotAreaBorderThickness = new OxyThickness(1);
+            model.PlotAreaBorderColor = OxyColors.Black;
+
             GraphiqueHeuresEmployes.Model = model;
         }
         catch (Exception ex)
